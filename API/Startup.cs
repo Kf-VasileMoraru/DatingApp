@@ -32,6 +32,13 @@ namespace API
             {
                 optionBuilder.UseSqlServer(Configuration.GetConnectionString("DbConnection"));
             });
+            
+            
+            
+            
+            
+            
+            
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

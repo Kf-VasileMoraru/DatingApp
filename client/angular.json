@@ -1,18 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "ed8015c4-42ea-49e3-a94f-0831da6913dd"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "client": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -31,6 +24,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -46,6 +41,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
+              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -53,13 +49,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -94,6 +90,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -127,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "client"
+  "defaultProject": "client",
+  "cli": {
+    "analytics": "4009445d-2245-44cc-a2d7-a4b0a11eaf57"
+  }
 }

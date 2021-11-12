@@ -14,6 +14,7 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
+
         public AccountController(DataContext context, ITokenService tokenService)
         {
             _tokenService = tokenService;
@@ -23,7 +24,10 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+            if (await UserExists(registerDto.Username))
+            {
+                return BadRequest("Username is taken");
+            }
 
             using var hmac = new HMACSHA512();
 

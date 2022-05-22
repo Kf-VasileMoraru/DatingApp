@@ -22,6 +22,9 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
 import {ErrorInterceptor} from './_interceptors/interceptor.interceptor';
 import {JwtInterceptor} from './_interceptors/jwt.interceptor';
 import {MemberCardComponent} from './members/member-card/member-card.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import {LoadingInterceptor} from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import {MemberCardComponent} from './members/member-card/member-card.component';
     NotFoundComponent,
     ServerErrorComponent,
     TestErrorsComponent,
-    MemberCardComponent
+    MemberCardComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -44,11 +48,13 @@ import {MemberCardComponent} from './members/member-card/member-card.component';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

@@ -25,6 +25,7 @@ import {MemberCardComponent} from './members/member-card/member-card.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import {LoadingInterceptor} from './_interceptors/loading.interceptor';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {LoadingInterceptor} from './_interceptors/loading.interceptor';
     ServerErrorComponent,
     TestErrorsComponent,
     MemberCardComponent,
-    MemberEditComponent
+    MemberEditComponent,
+    PhotoEditorComponent
   ],
   imports: [
     BrowserModule,

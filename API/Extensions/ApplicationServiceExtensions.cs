@@ -20,7 +20,8 @@ namespace API.Extensions
             {
                 optionBuilder.UseSqlServer(config.GetConnectionString("DbConnection"));
             });
-
+            services.AddScoped<IPhotoService, PhotoService>();
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             return services;
         }
     }

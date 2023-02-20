@@ -7,26 +7,30 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220522083145_lesson8")]
-    partial class lesson8
+    [Migration("20230220182545_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -76,8 +80,9 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
@@ -98,6 +103,21 @@ namespace API.Data.Migrations
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("API.Entities.UserLike", b =>
+                {
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TargetUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SourceUserId", "TargetUserId");
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "AppUser")
@@ -109,8 +129,31 @@ namespace API.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("API.Entities.UserLike", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany("LikedUsers")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "TargetUser")
+                        .WithMany("LikedByUsers")
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("SourceUser");
+
+                    b.Navigation("TargetUser");
+                });
+
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("LikedByUsers");
+
+                    b.Navigation("LikedUsers");
+
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618

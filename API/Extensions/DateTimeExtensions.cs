@@ -2,9 +2,9 @@ namespace API.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static int CalcuateAge(this DateOnly dob)
+        public static int CalcuateAge(this DateTime dob)
         {
-            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+            var today = DateTime.UtcNow;
 
             var age = today.Year - dob.Year;
 

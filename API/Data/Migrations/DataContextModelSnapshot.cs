@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
@@ -15,16 +17,18 @@ namespace API.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -74,8 +78,9 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
@@ -101,12 +106,12 @@ namespace API.Data.Migrations
                     b.Property<int>("SourceUserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LikedUserId")
+                    b.Property<int>("TargetUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("SourceUserId", "LikedUserId");
+                    b.HasKey("SourceUserId", "TargetUserId");
 
-                    b.HasIndex("LikedUserId");
+                    b.HasIndex("TargetUserId");
 
                     b.ToTable("Likes");
                 });
@@ -124,21 +129,21 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserLike", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "LikedUser")
-                        .WithMany("LikedByUsers")
-                        .HasForeignKey("LikedUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.AppUser", "SourceUser")
                         .WithMany("LikedUsers")
                         .HasForeignKey("SourceUserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("LikedUser");
+                    b.HasOne("API.Entities.AppUser", "TargetUser")
+                        .WithMany("LikedByUsers")
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("SourceUser");
+
+                    b.Navigation("TargetUser");
                 });
 
             modelBuilder.Entity("API.Entities.AppUser", b =>

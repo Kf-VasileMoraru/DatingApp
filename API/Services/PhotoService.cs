@@ -1,9 +1,7 @@
-using System.Threading.Tasks;
 using API.Helpers;
 using API.Interfaces;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace API.Services
@@ -32,8 +30,9 @@ namespace API.Services
                 using var stream = file.OpenReadStream();
                 var uploadParams = new ImageUploadParams
                 {
-                    File = new FileDescription(file.FileName, stream),
-                    Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
+                    File  = new FileDescription(file.FileName, stream),
+                    Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face"),
+                    Folder = "da-net7"
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
@@ -45,9 +44,7 @@ namespace API.Services
         {
             var deleteParams = new DeletionParams(publicId);
 
-            var result = await _cloudinary.DestroyAsync(deleteParams);
-
-            return result;
+            return await _cloudinary.DestroyAsync(deleteParams);
         }
     }
 }

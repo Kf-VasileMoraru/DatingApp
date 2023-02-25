@@ -1,5 +1,6 @@
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
+using TinyHelpers.EntityFrameworkCore.Extensions;
 
 namespace API.Data
 {
@@ -30,6 +31,10 @@ namespace API.Data
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(s => s.TargetUserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<AppUser>().Property(x => x.DateOfBirth)
+                .HasDateOnlyConversion();
+
         }
     }
 }

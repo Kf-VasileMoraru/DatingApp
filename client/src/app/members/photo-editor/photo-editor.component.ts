@@ -23,20 +23,22 @@ export class PhotoEditorComponent implements OnInit {
   constructor(private accountService: AccountService, private memberService: MembersService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
-        if (user) this.user = user
+        if (user) {
+          this.user = user;
+        }
       }
-    })
-   }
+    });
+  }
 
   ngOnInit(): void {
     this.initializeUploader();
   }
 
-  fileOverBase(e: any) {
+  fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
-  setMainPhoto(photo: Photo) {
+  setMainPhoto(photo: Photo): void {
     this.memberService.setMainPhoto(photo.id).subscribe({
       next: () => {
         if (this.user && this.member) {
@@ -44,25 +46,29 @@ export class PhotoEditorComponent implements OnInit {
           this.accountService.setCurrentUser(this.user);
           this.member.photoUrl = photo.url;
           this.member.photos.forEach(p => {
-            if (p.isMain) p.isMain = false;
-            if (p.id === photo.id) p.isMain = true;
-          })
+            if (p.isMain) {
+              p.isMain = false;
+            }
+            if (p.id === photo.id) {
+              p.isMain = true;
+            }
+          });
         }
       }
-    })
+    });
   }
 
-  deletePhoto(photoId: number) {
+  deletePhoto(photoId: number): void {
     this.memberService.deletePhoto(photoId).subscribe({
       next: _ => {
         if (this.member) {
           this.member.photos = this.member.photos.filter(x => x.id !== photoId);
         }
       }
-    })
+    });
   }
 
-  initializeUploader() {
+  initializeUploader(): void {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-photo',
       authToken: 'Bearer ' + this.user?.token,
@@ -74,8 +80,8 @@ export class PhotoEditorComponent implements OnInit {
     });
 
     this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false
-    }
+      file.withCredentials = false;
+    };
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
@@ -87,7 +93,7 @@ export class PhotoEditorComponent implements OnInit {
           this.accountService.setCurrentUser(this.user);
         }
       }
-    }
+    };
   }
 
 }

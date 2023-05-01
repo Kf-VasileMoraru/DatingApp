@@ -1,11 +1,12 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService } from 'src/app/_services/message.service';
 
 @Component({
   selector: 'app-member-messages',
   templateUrl: './member-messages.component.html',
-  styleUrls: ['./member-messages.component.css']
+  styleUrls: ['./member-messages.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MemberMessagesComponent {
   @ViewChild('messageForm') messageForm?: NgForm;

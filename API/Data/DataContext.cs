@@ -2,7 +2,6 @@ using API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TinyHelpers.EntityFrameworkCore.Extensions;
 
 namespace API.Data
 {
@@ -53,8 +52,8 @@ namespace API.Data
                 .HasForeignKey(s => s.TargetUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<AppUser>().Property(x => x.DateOfBirth)
-                .HasDateOnlyConversion();
+            // builder.Entity<AppUser>().Property(x => x.DateOfBirth)
+            //     .HasDateOnlyConversion();
             
             builder.Entity<Message>()
                 .HasOne(u => u.Recipient)
